@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3D列印車牌產生器</title>
+<link href="style.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="//code.jquery.com/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="https://github.com/niklasvh/html2canvas/releases/download/0.4.1/html2canvas.js"></script>
+<script type="text/javascript" src="http://hongru.github.io/proj/canvas2image/canvas2image.js"></script>
+
+
+</head>
+
+<body>
+<center>
+<input type="text" placeholder="輸入新七碼車牌號碼" onfocusout="myFunction()" onkeyup="value=value.replace(/4/ig,'');value=value.replace(/[^\w\.\/]/ig,'')" id="input" maxlength="7">
+<div id="chepai">
+	<div class="bg"><img src="images/bg.png" width="300"></div>
+	<div id="english">
+		<img src="images/B.png" height="66" id="img_t1" class="fleft">
+		<img src="images/M.png" height="66" id="img_t2" class="fleft">
+		<img src="images/W.png" height="66" id="img_t3" class="fleft">
+		<img src="images/point.png" height="66" id="img_point" class="fleft mgr5">
+	</div>
+		
+	<div id="number">
+		<img src="images/8.png" height="66" id="img_n1" class="fleft">
+		<img src="images/8.png" height="66" id="img_n2" class="fleft">
+		<img src="images/8.png" height="66" id="img_n3" class="fleft">
+		<img src="images/8.png" height="66" id="img_n4" class="fleft">	
+	</div>
+</div>
+<input type="button" id="btnSave" class="btn" value="下載"/>
+</center>
+<script>
+function myFunction() {
+    var str = document.getElementById("input").value;
+    if(str !== ""){
+    	var res = str.toUpperCase().split("");
+		document.getElementById("img_t1").src = "images/"+res[0]+".png";
+		document.getElementById("img_t2").src = "images/"+res[1]+".png";
+		document.getElementById("img_t3").src = "images/"+res[2]+".png";
+		document.getElementById("img_n1").src = "images/"+res[3]+".png";
+		document.getElementById("img_n2").src = "images/"+res[4]+".png";
+		document.getElementById("img_n3").src = "images/"+res[5]+".png";
+		document.getElementById("img_n4").src = "images/"+res[6]+".png";
+    }
+    
+}
+</script>
+<script type="text/javascript">//<![CDATA[
+$(window).load(function(){
+$(function() { 
+    $("#btnSave").click(function() { 
+        html2canvas($("#chepai"), {
+            onrendered: function(canvas) {
+                theCanvas = canvas;
+                document.body.appendChild(canvas);
+                Canvas2Image.saveAsPNG(canvas); 
+				downloadCanvas(this, 'canvas', 'test.png');
+            }
+        });
+    });
+}); 
+
+});//]]> 
+function downloadCanvas(link, canvasId, filename) {
+    link.href = document.getElementById(canvasId).toDataURL();
+    link.download = filename;
+}
+</script>
+</body>
+</html>
